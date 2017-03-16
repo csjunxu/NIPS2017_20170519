@@ -1,4 +1,4 @@
-function [ DataMat, DLMat, DRMat, DataInvMat, A ] = Initilization( Data , Label, alpha, lambda, gamma )
+function [ DataMat, DLMat, DRMat, A ] = Initilization( Data , Label, alpha, beta, gamma )
 % In this intilization function, we do the following things:
 % 1. Random initialization of dictioanry pair D and P for each class
 % 2. Precompute the class-specific inverse matrix used in Eq. (10)
@@ -25,9 +25,7 @@ for i=1:ClassNum
     DLMat{i}    = normcol_equal(randn(DLim, DLim));
     randn('seed', 2*i);
     DRMat{i}      = normcol_equal(randn(DRim(i), DRim(i)));
- 
-    TempDataC     = Data(:,Label~=i);
-    DataInvMat{i} = inv(alpha*TempData*TempData'+lambda*TempDataC*TempDataC'+gamma*IL_Mat);
+    
 end
 
 A = UpdateA( DataMat, DLMat, DRMat,  alpha, IL_Mat );
